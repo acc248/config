@@ -30,20 +30,39 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
+" Syntax
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'chr4/nginx.vim'
+Plugin 'shime/vim-livedown'
+
+" Fuzzy Search
+" Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'rking/ag.vim'
+
 Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
-Plugin 'rking/ag.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'epeli/slimux'
-Plugin 'chr4/nginx.vim'
-Plugin 'shime/vim-livedown'
 Plugin 'moll/vim-node'
+Plugin 'Yggdroot/indentLine'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.local/share/nvim/plugged')
+
+" Make sure you use single quotes
+Plug 'dyng/ctrlsf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" Initialize plugin system
+call plug#end()
 
 syntax enable
 filetype plugin indent on
@@ -58,6 +77,7 @@ set history=1000
 set cursorline
 set backspace=indent,eol,start
 autocmd VimLeave * call system("xsel -ib", getreg('+'))
+" autocmd BufWritePre * %s/\s\+$//e
 
 set expandtab
 set shiftwidth=2
@@ -75,6 +95,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 let g:airline_theme='lucius'
 let g:airline_powerline_fonts = 1
+" let g:indentLine_char = '·'
 
 " Slimux remap
 nnoremap <Leader>ci :SlimuxREPLConfigure<CR>
@@ -103,3 +124,32 @@ function! SimpleNodeShowModule()
   call feedkeys("^f'gf", "x")
 endfunction
 nnoremap <silent> <C-g> :call SimpleNodeShowModule()<CR>
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+nmap <C-p> :FZF<CR>
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordExec
+nmap     <C-F>N <Plug>CtrlSFCwordExec

@@ -6,6 +6,7 @@
 
 DEFAULT_USER="andrewc"
 EDITOR="vim"
+GIT_EDITOR="vim"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -103,3 +104,5 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias config='/usr/bin/git --git-dir=/home/andrewc/.cfg/ --work-tree=/home/andrewc'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
